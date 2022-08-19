@@ -5,14 +5,20 @@ from threading import Thread
 from pynput.mouse import Button, Controller as MController
 from pynput.keyboard import Key, Controller as KController, Listener as KListener
 
+from bot_scripts.fay import fay_1
+from bot_scripts.tamer import tamer_1
+from screen_scan.template_match import match_template
+
 keyboard_ = KController()
 mouse = MController()
 
 
 def brute_force_loot(res='1440p'):
+    '''Looting function'''
+    # TODO - get the latest coords from miluto pc
     if res == '1440p':
-        left = 900
-        right = 1700
+        left = 1000
+        right = 1600
         top = 500
         bottom = 1000
     elif res == '1080p':
@@ -32,121 +38,35 @@ def brute_force_loot(res='1440p'):
     for y in range(0, bottom - top, 80):
         y_coords.append(top + y)
 
-    with keyboard_.pressed(Key.shift):
-        for x in x_coords:
-            for y in y_coords:
-                mouse.position = x, y
-                mouse.press(Button.right)
-                mouse.release(Button.right)
-                time.sleep(0.05)
-    keyboard_.press(Key.f1)
-    keyboard_.release(Key.f1)
-    keyboard_.press(Key.esc)
-    keyboard_.release(Key.esc)
+    # with keyboard_.pressed(Key.shift):
+    for x in x_coords:
+        for y in y_coords:
+            mouse.position = x, y
+            mouse.press(Button.right)
+            mouse.release(Button.right)
+            time.sleep(0.05)
 
+    # Check for loot box and pick up if there is one
+    pick_up_btn = match_template()
+    if pick_up_btn is not None:
+        mouse.position = pick_up_btn
+        time.sleep(0.5)
+        mouse.press(Button.left)
+        mouse.release(Button.left)
+        time.sleep(0.05)
 
-def heal():
-    keyboard_.press(Key.f1)
-    keyboard_.release(Key.f1)
-    keyboard_.press('r')
-    keyboard_.release('r')
-    time.sleep(1.5)
-
-
-def buff():
-    # pyautogui.press('q')
-    # time.sleep(1.5)
-    keyboard_.press('w')
-    keyboard_.release('w')
-    time.sleep(1.5)
-    # pyautogui.press('e')
-    # time.sleep(1.5)
 
 
 def listen(key):
+    '''Listener for key presses'''
     if key == Key.f4:
         print('exiting')
         sys.exit()
 
 
-# region Bots
-def tamer_1(rebuff_after=15, rest_for=None, counter=1):
-    buff()
-
-    while True:
-        keyboard_.press(Key.tab)
-        keyboard_.release(Key.tab)
-        time.sleep(1)
-        keyboard_.press('`')
-        keyboard_.release('`')
-        time.sleep(1)
-        keyboard_.press('1')
-        keyboard_.release('1')
-        time.sleep(4)
-        keyboard_.press('2')
-        keyboard_.release('2')
-        time.sleep(4)
-        keyboard_.press('2')
-        keyboard_.release('2')
-        time.sleep(5)
-
-        # Rest
-        keyboard_.press('x')
-        keyboard_.release('x')
-
-        # Loot
-        brute_force_loot()
-
-        # Rebuff
-        if counter % rebuff_after == 0:
-            buff()
-
-        heal()
-
-        print(f'Loop nr {counter}')
-        counter += 1
-
-
-def fay_1(heal_after=1, rest_for=5, counter=1):
-    while True:
-        keyboard_.press(Key.tab)
-        keyboard_.release(Key.tab)
-        time.sleep(1)
-        keyboard_.press('3')
-        keyboard_.release('3')
-        time.sleep(3)
-        keyboard_.press('3')
-        keyboard_.release('3')
-        time.sleep(3)
-        keyboard_.press('3')
-        keyboard_.release('3')
-
-        time.sleep(4)
-
-        # Loot
-        brute_force_loot(res='1080p')
-
-        # Heal
-        if counter % heal_after == 0:
-            heal()
-
-        # Rest
-        keyboard_.press('x')
-        keyboard_.release('x')
-        time.sleep(rest_for)
-        print(f'Loop nr {counter}')
-        counter += 1
-
-
-# endregion
-
-
 def bot():
-    # set_listener()
-    # listener = KListener(on_press=listen)
-    # listener.start()
-
-    bot = Thread(target=fay_1, args=(), daemon=True)
+    '''Start the bot and the key listener'''
+    bot = Thread(target=fay_1, args=(keyboard_, Key, brute_force_loot), daemon=True)
     bot.start()
 
     with KListener(on_press=listen) as listener:
