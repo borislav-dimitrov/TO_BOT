@@ -34,8 +34,8 @@ def match_template():
     needle_img = cv2.imread('.\\screenshots\\match\\match_5.png')
     match = cv2.matchTemplate(source_img, needle_img, cv2.TM_CCOEFF_NORMED)
 
-    if match is not None:
-        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(match)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(match)
+    if max_val > 0.98:
         w = needle_img.shape[1] // 2
         h = needle_img.shape[0] // 2
 
