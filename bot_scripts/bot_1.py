@@ -118,12 +118,13 @@ def fay_1(heal_after=1, rest_for=5, counter=1):
         keyboard_.press('3')
         keyboard_.release('3')
         time.sleep(3)
-        keyboard_.press('2')
-        keyboard_.release('2')
-        time.sleep(5)
+        keyboard_.press('3')
+        keyboard_.release('3')
+
+        time.sleep(4)
 
         # Loot
-        brute_force_loot()
+        brute_force_loot(res='1080p')
 
         # Heal
         if counter % heal_after == 0:
