@@ -38,13 +38,13 @@ def brute_force_loot(res='1440p'):
     for y in range(0, bottom - top, 80):
         y_coords.append(top + y)
 
-    # with keyboard_.pressed(Key.shift):
-    for x in x_coords:
-        for y in y_coords:
-            mouse.position = x, y
-            mouse.press(Button.right)
-            mouse.release(Button.right)
-            time.sleep(0.05)
+    with keyboard_.pressed(Key.shift):
+        for x in x_coords:
+            for y in y_coords:
+                mouse.position = x, y
+                mouse.press(Button.right)
+                mouse.release(Button.right)
+                time.sleep(0.05)
 
     # Check for loot box and pick up if there is one
     pick_up_btn = match_template()
@@ -54,7 +54,6 @@ def brute_force_loot(res='1440p'):
         mouse.press(Button.left)
         mouse.release(Button.left)
         time.sleep(0.05)
-
 
 
 def listen(key):

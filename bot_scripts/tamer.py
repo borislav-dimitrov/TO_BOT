@@ -40,7 +40,7 @@ def tamer_1(kbd, key, loot, rebuff_after=15, rest_for=None, counter=1):
         kbd.release('x')
 
         # Loot
-        loot()
+        loot(res='1080p')
 
         # Rebuff
         if counter % rebuff_after == 0:

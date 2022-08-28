@@ -13,7 +13,7 @@ def heal(kbd, key):
     time.sleep(1.5)
 
 
-def fay_1(kbd, key, brute_force_loot, heal_after=1, rest_for=5, counter=1):
+def fay_1(kbd, key, brute_force_loot, heal_after=1, rest_for=3, counter=1):
     while True:
         kbd.press(key.tab)
         kbd.release(key.tab)
@@ -26,12 +26,11 @@ def fay_1(kbd, key, brute_force_loot, heal_after=1, rest_for=5, counter=1):
         time.sleep(3)
         kbd.press('3')
         kbd.release('3')
-
-        time.sleep(4)
+        time.sleep(3.5)
 
         # Loot
-        # brute_force_loot(res='1080p')
-        brute_force_loot()
+        brute_force_loot(res='1080p')
+        # brute_force_loot()
 
         # Heal
         if counter % heal_after == 0:
