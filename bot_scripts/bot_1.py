@@ -7,6 +7,7 @@ from pynput.keyboard import Key, Controller as KController, Listener as KListene
 
 from bot_scripts.fay import fay_1
 from bot_scripts.tamer import tamer_1
+from bot_scripts.monk import monk_1
 from screen_scan.template_match import match_template
 
 keyboard_ = KController()
@@ -65,7 +66,7 @@ def listen(key):
 
 def bot():
     '''Start the bot and the key listener'''
-    bot = Thread(target=fay_1, args=(keyboard_, Key, brute_force_loot), daemon=True)
+    bot = Thread(target=monk_1, args=(keyboard_, Key, brute_force_loot), daemon=True)
     bot.start()
 
     with KListener(on_press=listen) as listener:
