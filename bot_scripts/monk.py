@@ -29,8 +29,8 @@ def monk_1(kbd, key, brute_force_loot, buff_after=10, rest_for=3, counter=1):
         press(kbd, '3', 3)
 
         # Loot
-        # brute_force_loot(res='1080p')
-        brute_force_loot()
+        brute_force_loot(res='1080p')
+        # brute_force_loot()
 
         # Rebuff
         if counter % buff_after == 0:

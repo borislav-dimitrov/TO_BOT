@@ -66,7 +66,7 @@ def listen(key):
 
 def bot():
     '''Start the bot and the key listener'''
-    bot = Thread(target=monk_1, args=(keyboard_, Key, brute_force_loot), daemon=True)
+    bot = Thread(target=tamer_1, args=(keyboard_, Key, brute_force_loot), daemon=True)
     bot.start()
 
     with KListener(on_press=listen) as listener:

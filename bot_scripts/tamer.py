@@ -1,6 +1,12 @@
 import time
 
 
+def press(kbd, key, wait=0):
+    kbd.press(key)
+    kbd.release(key)
+    time.sleep(wait)
+
+
 def heal(kbd, key):
     kbd.press(key.f1)
     kbd.release(key.f1)
@@ -19,21 +25,9 @@ def tamer_1(kbd, key, loot, rebuff_after=15, rest_for=None, counter=1):
     buff(kbd)
 
     while True:
-        kbd.press(key.tab)
-        kbd.release(key.tab)
-        time.sleep(1)
-        kbd.press('`')
-        kbd.release('`')
-        time.sleep(1)
-        kbd.press('1')
-        kbd.release('1')
-        time.sleep(4)
-        kbd.press('2')
-        kbd.release('2')
-        time.sleep(4)
-        kbd.press('2')
-        kbd.release('2')
-        time.sleep(5)
+        press(kbd, key.tab, 1)
+        press(kbd, '`', 1)
+        press(kbd, '1', 1.5)
 
         # Rest
         kbd.press('x')
