@@ -5,7 +5,7 @@ from window_handling import find_window
 def main():
     window = find_window('Talisman')
     if window:
-        bot_1.bot()
+        bot_1.bot(window)
 
 
 if __name__ == '__main__':

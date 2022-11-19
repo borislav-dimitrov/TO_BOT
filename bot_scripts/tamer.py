@@ -1,4 +1,6 @@
+import signal
 import time
+import os
 
 
 def press(kbd, key, wait: int | float = 0):
@@ -27,10 +29,16 @@ def buff(kbd, key):
     press(kbd, 'q', 1.5)
 
 
-def tamer_1(kbd, key, loot, rebuff_after=15):
+def check_window(window):
+    if not window.isActive:
+        os.kill(os.getpid(), signal.SIGINT)
+
+
+def tamer_1(kbd, key, loot, window, rebuff_after=15):
     """
     Bot script for tamer
 
+    :param window: The TO client window
     :param kbd: Pynput keyboard controller
     :param key: Pynput key class
     :param loot: Function for looting corpses
@@ -43,15 +51,18 @@ def tamer_1(kbd, key, loot, rebuff_after=15):
     while True:
         press(kbd, key.tab, 1)
         press(kbd, '`', 1)
-        press(kbd, '1', 4)
+        press(kbd, '1', 2)
+        press(kbd, '2', 3)
         press(kbd, '2', 2)
-        # press(kbd, '2', 2)
 
         # Heal
         heal(kbd)
 
         # Rest
         press(kbd, 'x', 3)
+
+        # Check if TO window is still open, and stop bot if it isn't
+        check_window(window)
 
         # Loot
         loot(res='1440p')

@@ -64,9 +64,12 @@ def listen(key):
         sys.exit()
 
 
-def bot():
-    '''Start the bot and the key listener'''
-    bot = Thread(target=tamer_1, args=(keyboard_, Key, brute_force_loot), daemon=True)
+def bot(window):
+    '''Start the bot and the key listener
+
+    :param window: The TO client window
+    '''
+    bot = Thread(target=tamer_1, args=(keyboard_, Key, brute_force_loot, window), daemon=True)
     bot.start()
 
     with KListener(on_press=listen) as listener:
