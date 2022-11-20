@@ -1,44 +1,68 @@
 import time
 
 
-def buff():
+def press(kbd, key, wait: int | float = 0):
+    """
+    Press the given key
+
+    :param kbd: Pynput keyboard controller
+    :param key: Key to be pressed
+    :param wait: Time to wait after the key was pressed
+    :return: None
+    """
+    kbd.press(key)
+    kbd.release(key)
+    time.sleep(wait)
+
+
+def buff(kbd, key):
     pass
 
 
 def heal(kbd, key):
-    kbd.press(key.f1)
-    kbd.release(key.f1)
-    kbd.press('r')
-    kbd.release('r')
-    time.sleep(1.5)
+    press(kbd, key.f1)
+    press(kbd, 'e', 2)
 
 
-def fay_1(kbd, key, brute_force_loot, heal_after=1, rest_for=3, counter=1):
+def fay_1(kbd, key, loot, check_window, check_resources):
+    """
+    Bot script for tamer
+
+    :param check_window: Method that checks if TO window is still open,
+                            and stop bot if it isn't
+    :param kbd: Pynput keyboard controller
+    :param key: Pynput key class
+    :param loot: Function for looting corpses
+    :return: None
+    """
+    rest_for = 10
+    rebuff_after = 15
+
+    counter = 1
+
+    buff(kbd, key)
+
     while True:
-        kbd.press(key.tab)
-        kbd.release(key.tab)
-        time.sleep(1)
-        kbd.press('3')
-        kbd.release('3')
-        time.sleep(3)
-        kbd.press('3')
-        kbd.release('3')
-        time.sleep(3)
-        kbd.press('3')
-        kbd.release('3')
-        time.sleep(3.5)
+        press(kbd, key.tab)
+        press(kbd, '3', 3)
+        press(kbd, '3', 3.5)
+        press(kbd, '2', 4.5)
 
         # Loot
-        brute_force_loot(res='1080p')
-        # brute_force_loot()
+        check_window()
+        loot(res='1440p')
 
-        # Heal
-        if counter % heal_after == 0:
+        # Heal up and rest
+        resources = check_resources()
+        if not resources['HP']:
             heal(kbd, key)
+        if not resources['MP']:
+            # Rest
+            press(kbd, 'x', rest_for)
 
-        # Rest
-        kbd.press('x')
-        kbd.release('x')
-        time.sleep(rest_for)
+        # Rebuff
+        if counter % rebuff_after == 0:
+            buff(kbd, key)
+
         print(f'Loop nr {counter}')
         counter += 1

@@ -1,5 +1,7 @@
 import sys
 import time
+import os
+import signal
 from threading import Thread
 
 from pynput.mouse import Button, Controller as MController
@@ -8,20 +10,29 @@ from pynput.keyboard import Key, Controller as KController, Listener as KListene
 from bot_scripts.fay import fay_1
 from bot_scripts.tamer import tamer_1
 from bot_scripts.monk import monk_1
-from screen_scan.template_match import match_template
+from screen_scan.template_match import match_template, check_resources
+
 
 keyboard_ = KController()
 mouse = MController()
+WINDOW = None
+
+
+def check_window():
+    if not WINDOW:
+        os.kill(os.getpid(), signal.SIGINT)
+    if not WINDOW.isActive:
+        os.kill(os.getpid(), signal.SIGINT)
 
 
 def brute_force_loot(res='1440p'):
     '''Looting function'''
     # TODO - get the latest coords from miluto pc
     if res == '1440p':
-        left = 1000
-        right = 1600
-        top = 500
-        bottom = 1000
+        left = 1100
+        right = 1500
+        top = 600
+        bottom = 900
     elif res == '1080p':
         left = 700
         right = 1300
@@ -69,7 +80,11 @@ def bot(window):
 
     :param window: The TO client window
     '''
-    bot = Thread(target=tamer_1, args=(keyboard_, Key, brute_force_loot, window), daemon=True)
+    global WINDOW
+    WINDOW = window
+    bot = Thread(target=fay_1,
+                 args=(keyboard_, Key, brute_force_loot, check_window, check_resources),
+                 daemon=True)
     bot.start()
 
     with KListener(on_press=listen) as listener:

@@ -29,16 +29,12 @@ def buff(kbd, key):
     press(kbd, 'q', 1.5)
 
 
-def check_window(window):
-    if not window.isActive:
-        os.kill(os.getpid(), signal.SIGINT)
-
-
-def tamer_1(kbd, key, loot, window, rebuff_after=15):
+def tamer_1(kbd, key, loot, check_window, check_resources, rebuff_after=15):
     """
     Bot script for tamer
 
-    :param window: The TO client window
+    :param check_window: Method that checks if TO window is still open,
+                            and stop bot if it isn't
     :param kbd: Pynput keyboard controller
     :param key: Pynput key class
     :param loot: Function for looting corpses
@@ -62,7 +58,7 @@ def tamer_1(kbd, key, loot, window, rebuff_after=15):
         press(kbd, 'x', 3)
 
         # Check if TO window is still open, and stop bot if it isn't
-        check_window(window)
+        check_window()
 
         # Loot
         loot(res='1440p')
