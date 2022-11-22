@@ -21,7 +21,7 @@ def buff(kbd, key):
 
 def heal(kbd, key):
     press(kbd, key.f1)
-    press(kbd, 'e', 2)
+    press(kbd, 'r', 1.5)
 
 
 def fay_1(kbd, key, loot, check_window, check_resources):
@@ -45,8 +45,10 @@ def fay_1(kbd, key, loot, check_window, check_resources):
     while True:
         press(kbd, key.tab)
         press(kbd, '3', 3)
+        press(kbd, '1', 1.5)
         press(kbd, '3', 3.5)
-        press(kbd, '2', 4.5)
+        press(kbd, '3', 3.5)
+        press(kbd, '3', 1)
 
         # Loot
         check_window()
@@ -54,8 +56,7 @@ def fay_1(kbd, key, loot, check_window, check_resources):
 
         # Heal up and rest
         resources = check_resources()
-        if not resources['HP']:
-            heal(kbd, key)
+        heal(kbd, key)
         if not resources['MP']:
             # Rest
             press(kbd, 'x', rest_for)

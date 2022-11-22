@@ -19,8 +19,9 @@ WINDOW = None
 
 
 def check_window():
-    if not WINDOW:
-        os.kill(os.getpid(), signal.SIGINT)
+    if not WINDOW.isActive:
+        WINDOW.activate()
+    time.sleep(0.2)
     if not WINDOW.isActive:
         os.kill(os.getpid(), signal.SIGINT)
 
@@ -29,10 +30,10 @@ def brute_force_loot(res='1440p'):
     '''Looting function'''
     # TODO - get the latest coords from miluto pc
     if res == '1440p':
-        left = 1100
-        right = 1500
-        top = 600
-        bottom = 900
+        left = 1050
+        right = 1600
+        top = 550
+        bottom = 950
     elif res == '1080p':
         left = 700
         right = 1300
