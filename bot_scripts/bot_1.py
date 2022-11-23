@@ -30,10 +30,10 @@ def brute_force_loot(res='1440p'):
     '''Looting function'''
     # TODO - get the latest coords from miluto pc
     if res == '1440p':
-        left = 1050
-        right = 1600
-        top = 550
-        bottom = 950
+        left = 1100
+        right = 1490
+        top = 570
+        bottom = 890
     elif res == '1080p':
         left = 700
         right = 1300
@@ -45,10 +45,10 @@ def brute_force_loot(res='1440p'):
     x_coords = []
     y_coords = []
 
-    for x in range(0, right - left, 90):
+    for x in range(0, right - left, 45):
         x_coords.append(left + x)
 
-    for y in range(0, bottom - top, 80):
+    for y in range(0, bottom - top, 40):
         y_coords.append(top + y)
 
     with keyboard_.pressed(Key.shift):
