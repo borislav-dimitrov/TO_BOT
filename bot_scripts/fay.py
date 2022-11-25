@@ -47,9 +47,9 @@ def fay_1(kbd, key, loot, check_window, check_resources):
         press(kbd, '3', 3)
         press(kbd, '1', 1.5)
         press(kbd, '3', 3.5)
-        press(kbd, '3', 3.5)
-        press(kbd, '2', 2.5)
-        press(kbd, '2')
+        press(kbd, '3', 2)
+        press(kbd, '2', 2)
+        press(kbd, '2', 2)
 
         # Loot
         check_window()
